@@ -1,10 +1,11 @@
 
 <template>
-  <h1>Hello, world</h1>
+  <MainPage />
 </template>
 
   <script setup lang="ts">
+    import {MainPage} from '@/pages'
   </script>
 
-<style scoped>
+<style lang="scss">
 </style>
