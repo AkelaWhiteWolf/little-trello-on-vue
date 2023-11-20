@@ -1,7 +1,13 @@
 <template>
   <v-dialog width="500" v-model="isDialogOpened">
     <template v-slot:activator="{ props }">
-      <v-btn v-bind="props" text="Create Candidate" variant="elevated" color="primary"></v-btn>
+      <v-btn
+        v-bind="props"
+        text="Create Candidate"
+        variant="elevated"
+        color="primary"
+        :loading="candidatesStore.isLoading"
+      ></v-btn>
     </template>
 
     <template v-slot:default>
@@ -53,9 +59,7 @@ const nameRules = [
   }
 ];
 
-function createCandidate(e: SubmitEvent) {
-  e.preventDefault();
-
+function createCandidate() {
   if (isFormValid.value) {
     candidatesStore.createNewCandidate(firstName.value, lastName.value);
     isDialogOpened.value = false;
