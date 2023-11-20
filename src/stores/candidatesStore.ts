@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import type { CandidateCardData } from '@/types';
+import type { COLUMNS_DATA } from '@/data';
 
 export const useCandidatesStore = defineStore('candidatesStore', () => {
   const data = ref<CandidateCardData[]>([]);

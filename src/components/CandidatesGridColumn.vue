@@ -2,7 +2,7 @@
   <v-sheet class="column">
     <v-sheet class="name-container">
       <p>{{ column.name }}</p>
-      <p>{{ candidatesOfColumn.length }}</p>
+      <p class="count">{{ candidatesOfColumn.length }}</p>
     </v-sheet>
     <v-sheet class="data-container" @dragover.prevent @dragenter.prevent @drop.prevent="onDrop">
       <CandidateCard
@@ -41,6 +41,8 @@ function onDrop(event: DragEvent) {
 <style scoped lang="scss">
 .column {
   min-width: 250px;
+  display: flex;
+  flex-direction: column;
 
   .name-container {
     display: flex;
@@ -49,6 +51,9 @@ function onDrop(event: DragEvent) {
     height: 80px;
     font-weight: bold;
     font-size: larger;
+    .count {
+      color: gray;
+    }
   }
   .data-container {
     display: flex;
@@ -57,7 +62,7 @@ function onDrop(event: DragEvent) {
     background: #f4f4f4;
     padding: 10px;
     border-radius: 15px;
-    height: 100%;
+    flex-grow: 1;
   }
 }
 </style>
