@@ -4,7 +4,7 @@
       <p>{{ column.name }}</p>
       <p>{{ candidatesOfColumn.length }}</p>
     </v-sheet>
-    <v-sheet class="data-container">
+    <v-sheet class="data-container" @dragover.prevent @dragenter.prevent @drop.prevent="onDrop">
       <CandidateCard
         v-for="candidate in candidatesOfColumn"
         :key="candidate.id"
@@ -29,6 +29,13 @@ const candidatesStore = useCandidatesStore();
 const candidatesOfColumn = computed(() =>
   candidatesStore.data.filter((candidate) => Number(candidate.employerStatusId) === column.order)
 );
+
+function onDrop(event: DragEvent) {
+  if (event?.dataTransfer) {
+    const id = Number(event.dataTransfer.getData('id'));
+    candidatesStore.setNewCandidateStatus(id, column.order);
+  }
+}
 </script>
 
 <style scoped lang="scss">

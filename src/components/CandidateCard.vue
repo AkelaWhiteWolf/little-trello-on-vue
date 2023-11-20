@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="candidate-card" draggable ondragstart="onDragStart" ondragover="onDragOver">
+  <v-sheet class="candidate-card" draggable="true" @dragstart="onDragStart" @dragover.stop.prevent>
     <v-sheet class="top">
       <v-avatar :color="data.candidate.color || 'blue'">{{ avatarLetters }}</v-avatar>
       <p class="full-name">
@@ -22,9 +22,6 @@ const { data } = defineProps<{
 
 function onDragStart(event: DragEvent) {
   if (event?.dataTransfer) event.dataTransfer.setData('id', String(data.id));
-}
-function onDragOver(event: DragEvent) {
-  event.preventDefault();
 }
 
 const avatarLetters = computed(() =>

@@ -8,8 +8,12 @@ export const useCandidatesStore = defineStore('candidatesStore', () => {
 
   function setNewCandidateStatus(
     id: CandidateCardData['id'],
-    newChannelId: CandidateCardData['channelId']
-  ) {}
+    newOrder: (typeof COLUMNS_DATA)[number]['order']
+  ) {
+    const selectedCandidate = data.value.find((candidate) => candidate.id === id);
+    if (!selectedCandidate) throw new Error(`No candidate with id: ${id}`);
+    selectedCandidate.employerStatusId = String(newOrder);
+  }
 
   async function getDataFromServer() {
     isLoading.value = true;
