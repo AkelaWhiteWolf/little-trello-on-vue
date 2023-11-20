@@ -1,19 +1,24 @@
 <template>
   <v-layout>
     <v-main>
-      <CandidatesGrid />
-      <ChannelsChart />
+      <v-container class="container">
+        <CreateCandidateModal :isOpened="isCreateCandidateModalOpened" />
+        <CandidatesGrid />
+        <ChannelsChart />
+      </v-container>
     </v-main>
   </v-layout>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useCandidatesStore, useChannelsStore } from '@/stores';
-import { CandidatesGrid, ChannelsChart } from '@/components';
+import { CandidatesGrid, ChannelsChart, CreateCandidateModal } from '@/components';
 
 const candidatesStore = useCandidatesStore();
 const channelsStore = useChannelsStore();
+
+const isCreateCandidateModalOpened = ref(false);
 
 onMounted(() => {
   candidatesStore.getDataFromServer();
@@ -21,4 +26,8 @@ onMounted(() => {
 });
 </script>
 
-<style lang=""></style>
+<style scoped lang="scss">
+.container {
+  max-width: 1470px;
+}
+</style>

@@ -27,8 +27,8 @@ export const useCandidatesStore = defineStore('candidatesStore', () => {
     isLoading.value = false;
 
     newCandidateId.value = responseJson.reduce(
-      (accumulator, candidate) => (candidate.id > accumulator ? ++candidate.id : accumulator),
-      0
+      (accumulator, candidate) => (candidate.id >= accumulator ? candidate.id + 1 : accumulator),
+      newCandidateId.value
     );
   }
 
