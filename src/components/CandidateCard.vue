@@ -7,18 +7,29 @@
         {{ data.candidate.lastName }}
       </p>
     </v-sheet>
+
+    <v-sheet class="bottom">
+      <p>{{ data.adChannel }}</p>
+      <v-sheet>
+        <v-icon icon="mdi-clock-outline"></v-icon>
+        <p>{{ createdTimeAgo }}</p>
+      </v-sheet>
+    </v-sheet>
   </v-sheet>
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { computed } from 'vue';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { getFirstLettersOfFullname } from '@/utils';
 import type { CandidateCardData } from '@/types';
-import { computed } from 'vue';
 
 const { data } = defineProps<{
   data: CandidateCardData;
 }>();
+
+dayjs.extend(relativeTime);
 
 function onDragStart(event: DragEvent) {
   if (event?.dataTransfer) event.dataTransfer.setData('id', String(data.id));
@@ -27,6 +38,8 @@ function onDragStart(event: DragEvent) {
 const avatarLetters = computed(() =>
   getFirstLettersOfFullname({ first: data.candidate.firstName, last: data.candidate.lastName })
 );
+
+const createdTimeAgo = computed(() => dayjs().to(dayjs(data.createdAt)));
 </script>
 
 <style scoped lang="scss">
@@ -51,6 +64,15 @@ const avatarLetters = computed(() =>
     justify-content: space-between;
     align-items: center;
     height: 30%;
+    font-size: 12px;
+    > p {
+      color: lightgreen;
+    }
+    > div {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
   }
 
   .full-name {

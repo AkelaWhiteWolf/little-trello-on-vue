@@ -12,7 +12,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@mdi/font": "^7.3.67",
     "chart.js": "^3.9.1",
+    "dayjs": "^1.11.10",
     "pinia": "^2.1.7",
     "vue": "^3.3.4",
     "vue-chart-3": "^3.1.8",

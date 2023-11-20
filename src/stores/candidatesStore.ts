@@ -2,10 +2,12 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import type { CandidateCardData } from '@/types';
 import type { COLUMNS_DATA } from '@/data';
+import { getObjectDeepCopy } from '@/utils';
 
 export const useCandidatesStore = defineStore('candidatesStore', () => {
   const data = ref<CandidateCardData[]>([]);
   const isLoading = ref(false);
+  const newCandidateId = ref(0);
 
   function setNewCandidateStatus(
     id: CandidateCardData['id'],
@@ -19,11 +21,35 @@ export const useCandidatesStore = defineStore('candidatesStore', () => {
   async function getDataFromServer() {
     isLoading.value = true;
     const response = await fetch('https://650d558fa8b42265ec2c07b8.mockapi.io/kek/submissions');
-    const responseJson = await response.json();
+    const responseJson: CandidateCardData[] = await response.json();
 
     data.value = responseJson;
     isLoading.value = false;
+
+    newCandidateId.value = responseJson.reduce(
+      (accumulator, candidate) => (candidate.id > accumulator ? ++candidate.id : accumulator),
+      0
+    );
   }
 
-  return { data, isLoading, setNewCandidateStatus, getDataFromServer };
+  function createNewCandidate(firstName: string, lastName: string) {
+    const newCandidate = {
+      ...getObjectDeepCopy(data.value[0]),
+      ...{
+        id: newCandidateId.value,
+        candidate: {
+          id: newCandidateId.value,
+          firstName,
+          lastName,
+          color: data.value[0].candidate.color
+        }
+      }
+    };
+
+    newCandidateId.value++;
+
+    data.value.push(newCandidate);
+  }
+
+  return { data, isLoading, setNewCandidateStatus, getDataFromServer, createNewCandidate };
 });
