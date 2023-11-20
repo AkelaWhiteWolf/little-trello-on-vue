@@ -10,7 +10,7 @@
           v-if="isLoading"
         ></v-progress-circular>
         <template v-else>
-          <CreateCandidateModal :isOpened="isCreateCandidateModalOpened" />
+          <CreateCandidateModal :is-opened="isCreateCandidateModalOpened" />
           <CandidatesGrid />
           <ChannelsChart />
         </template>
